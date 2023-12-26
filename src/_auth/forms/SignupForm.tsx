@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { SignupValidation } from "@/lib/validation"
 import Loader from "@/components/shared/Loader"
+import { createUserAccount } from "@/lib/appwrite/api"
 
 const SignupForm = () => {
   const isLoading = false;
@@ -32,7 +33,8 @@ const SignupForm = () => {
  
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof SignupValidation>) {
-    // const newUser = await creatUserAccount(values) // use await because creating or fetching user from database takes time
+    const newUser = await createUserAccount(values) // use await because creating or fetching user from database takes time
+    console.log(newUser)
   }
 
   return (
