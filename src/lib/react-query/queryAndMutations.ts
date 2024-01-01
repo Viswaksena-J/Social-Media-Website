@@ -5,8 +5,8 @@ import {
     useInfiniteQuery,
   } from "@tanstack/react-query";
   
- import { QUERY_KEYS } from "@/lib/react-query/queryKeys";
-import {
+  import { QUERY_KEYS } from "@/lib/react-query/queryKeys";
+  import {
     createUserAccount,
     signInAccount,
     getCurrentUser,
@@ -26,7 +26,7 @@ import {
     savePost,
     deleteSavedPost,
   } from "@/lib/appwrite/api";
-import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
+  import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
   
   // ============================================================
   // AUTH QUERIES
@@ -245,3 +245,15 @@ export const useSignOutAccount = () => {
     });
   };
   
+  export const useGetPosts = () => {
+    return useInfiniteQuery({
+        queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
+        queryFn: getInfinitePosts,
+        getNextPageParam: (lastpage) => {
+            if(lastpage && lastpage.documents.length === 0) return null;
+            const lastId = lastpage.documents[lastpage?.documents.length -1].$id;
+            
+            return lastId;
+        }
+    })
+  }
