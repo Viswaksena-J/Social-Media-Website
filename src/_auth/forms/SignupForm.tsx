@@ -6,7 +6,6 @@ import { Link, useNavigate } from "react-router-dom"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -27,8 +26,8 @@ const SignupForm = () => {
   const {checkAuthUser, isLoading: isUserLoading} = useUserContext()
   const navigate = useNavigate();
   // const isLoading = false;
-  const {mutateAsync: createUserAccount,isPending: isCreatingUser} = useCreateUserAccount();
-  const {mutateAsync: signInAccount,isPending: isSigningIn} = useSignInAccount();
+  const {mutateAsync: createUserAccount,isPending: isCreatingAccount} = useCreateUserAccount();
+  const {mutateAsync: signInAccount,isPending: isSigningInUser} = useSignInAccount();
   // 1. Define your form.
   const form = useForm<z.infer<typeof SignupValidation>>({
     resolver: zodResolver(SignupValidation),
@@ -133,12 +132,14 @@ const SignupForm = () => {
               </FormItem>
             )}
           />
-          <Button type="submit" className='shad-button_primary'>
-              {isCreatingUser ? (
-                <div className="flex-center gap-2">
-                  <Loader/>Loading....
-                </div>
-              ):"Sign up"}
+          <Button type="submit" className="shad-button_primary">
+            {isCreatingAccount || isSigningInUser || isUserLoading ? (
+              <div className="flex-center gap-2">
+                <Loader /> Loading...
+              </div>
+            ) : (
+              "Sign Up"
+            )}
           </Button>
           <p className="text-small-regular text-light-2 text-center mt-2">
                 Aldready have an account?
